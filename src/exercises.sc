@@ -1,9 +1,6 @@
 import scala.collection.mutable.ArrayBuffer
-
-
 // note: I had to follow this to get this to compile:
 // https://intellij-support.jetbrains.com/hc/en-us/community/posts/205995309-scalac-Cannot-connect-to-compile-server-at-localhost-127-0-0-1-3200
-
 object worksheetSDP {
   // SDP scala exercises
   // SDP exercises day 1
@@ -25,8 +22,6 @@ object worksheetSDP {
   val C = (F - 32)*(5.toFloat/9)            //> C  : Float = 20.0
   val C2 = 20                               //> C2  : Int = 20
   val F2 = (9.0/5)*C2 + 32                  //> F2  : Double = 68.0
-
-
   // Methods
   def getSquare(num : Int) = num * num
   val a = getSquare(3)
@@ -44,7 +39,6 @@ object worksheetSDP {
 //  assert(/* fill this in */)
 //  val t2 = isArg1GreaterThanArg2(2.1, 1.2)
 //  assert(/* fill this in */)
-
   def isArg1GreaterThanArg2(num1 : Double, num2: Double) = num1 > num2
   val t1 = isArg1GreaterThanArg2(4.1, 4.12)
   assert(t1 == false)
@@ -58,7 +52,6 @@ object worksheetSDP {
 //  assert("abcabcabc" == m1, "Your message here")
 //  val m2 = manyTimesString("123", 2)
 //  assert("123123" == m2, "Your message here")
-
   def manyTimesString(s: String, n: Int) = s*n
   val m1 = manyTimesString("abc", 3)
   assert("abcabcabc" == m1, "hmm not the same")
@@ -76,13 +69,10 @@ object worksheetSDP {
 //  object s2 (as a var) initialised to "Sally". Use s1.equals(s2) to determine if the
 //  two Strings are equivalent. If they are, print s1 and s2 are equal, otherwise
 //  print s1 and s2 are not equal.
-
   val r = 1 to 10
   r.step
-
   val r2 = 1 to 10 by 2
   r2.step
-
   var s1 = new String("Sally")
   var s2 = "Sally"
   var s3 = s1 + " and " + s2
@@ -95,7 +85,19 @@ object worksheetSDP {
 //    raised, and Sails lowered, respectively.
 //    Create a Motorboat class with methods to start and stop the motor, returning
 //  Motor on, and Motor off, respectively. Create an object (instance) of the
-//  Sailboat class. Use assert for verification:
+//  Sailboat class.
+  class Sailboat extends Signal {
+    def raise = "Sails raised"
+    def lower = "Sails lowered"
+  }
+  class Motorboat extends Signal {
+    def start = "Motor on"
+    def stop = "Motor off"
+  }
+
+
+  //
+  // Use assert for verification:
 //  val sailboat = new Sailboat
 //  val r1 = sailboat.raise()
 //  assert(r1 == "Sails raised", "Expected Sails raised, Got " + r1)
@@ -106,21 +108,45 @@ object worksheetSDP {
 //  assert(s1 == "Motor on", "Expected Motor on, Got " + s1)
 //  val s2 = motorboat.off()
 //  assert(s2 == "Motor off", "Expected Motor off, Got " + s2)
+  val sailboat = new Sailboat
+  val r1 = sailboat.raise
+  assert(r1 == "Sails raised", "Expected Sails raised, Got " + r1)
+  val motorboat = new Motorboat
+  val mb1 = motorboat.start
+  assert(mb1 == "Motor on")
+
+
 //  2. Create a new class Flare. Define a light method in the Flare class. Satisfy the
 //    following:
 //  val flare = new Flare
 //  val f1 = flare.light
 //  assert(f1 == "Flare used!", "Expected Flare used!, Got " + f1)
+  class Flare {
+    def light = "Flare used!"
+  }
+
+  val flare = new Flare
+  val f1 = flare.light
+  assert(f1 == "Flare used!", "Expected 'Flare used!', got " + f1)
 //  3. In each of the Sailboat and Motorboat classes, add a method signal that creates
 //    a Flare object and calls the light method on the Flare. Satisfy the following:
-//  val sailboat2 = new Sailboat2
-//  val signal = sailboat2.signal()
-//  assert(signal == "Flare used!", "Expected Flare used! Got " + signal)
-//  Page 3
-//  val motorboat2 = new Motorboat2
-//  val flare2 = motorboat2.signal()
-//  assert(flare2 == "Flare used!", "Expected Flare used!, Got " + flare2)
-//  Fields in Classes
+  trait Signal {
+    val flare = new Flare
+    def signal = flare.light
+  }
+
+  val sailboat2 = new Sailboat
+  val signal = sailboat2.signal
+  assert(signal == "Flare used!", "Expected Flare used! Got " + signal)
+
+  //  Page 3
+  val motorboat2 = new Motorboat
+  val flare2 = motorboat.signal
+  assert(flare2 == "Flare used!", "Expected Flare used!, Got " + flare2)
+
+
+
+  //  Fields in Classes
 //  Given the following code:
 //  class Cup {
 //    var percentFull = 0
